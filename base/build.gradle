@@ -24,39 +24,46 @@ version = '0.1.0'
 def jarName = "base"
 def containerName = "aisera/connector-pipeline:$System.env.branch"
 
+ext {
+  slf4jVersion = '1.7.25'
+  projectLombokVersion = '1.16.20'
+  junitVersion = '4.12'
+  mockitoVersion = '2.23.4'
+}
+
 assemble.doFirst {
-  def libDir = new File("${rootDir}/build/install/opt/aisera/connectors/pipeline/lib")
+  def libDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/lib")
   if (!libDir.exists()) {
     libDir.mkdirs()
   }
 
-  def binDir = new File("${rootDir}/build/install/opt/aisera/connectors/pipeline/bin")
+  def binDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/bin")
   if (!binDir.exists()) {
     binDir.mkdirs()
   }
 
-  def confDir = new File("${rootDir}/build/install/opt/aisera/connectors/pipeline/conf")
+  def confDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/conf")
   if (!confDir.exists()) {
     confDir.mkdirs()
   }
 
   copy {
-    from "Dockerfile.pipeline"
-    into "${rootDir}/build/install/opt/aisera/connectors/pipeline"
+    from "Dockerfile.base"
+    into "${rootDir}/build/install/opt/aisera/connectors/base"
   }
 }
 
 assemble.doLast {
   copy {
-    from "${buildDir}/libs/connector-pipeline-all-0.1.0.jar"
-    into "${rootDir}/build/install/opt/aisera/connectors/pipeline/lib/"
+    from "${buildDir}/libs/base-0.1.0.jar"
+    into "${rootDir}/build/install/opt/aisera/connectors/base/lib/"
   }
 }
 
 task buildImage(type: Exec) {
   workingDir "${rootDir}/build/install/opt/aisera/connectors"
   executable "docker"
-  args "build", "-t", "${containerName}", "-f", "pipeline/Dockerfile.pipeline", "."
+  args "build", "-t", "${containerName}", "-f", "base/Dockerfile.base", "."
 }
 
 task cleanImage(type: Exec) {
@@ -66,15 +73,8 @@ task cleanImage(type: Exec) {
 }
 
 dependencies {
-  compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
-  compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
 
-  // https://mvnrepository.com/artifact/commons-io/commons-io
-  compile group: 'commons-io', name: 'commons-io', version: '2.5'
-  compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-  compile group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.9.0'
-  compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
   // https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
   compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
@@ -96,7 +96,13 @@ configurations {
 }
 
 dependencies {
-  testOutput sourceSets.test.output
+  compile "org.apache.commons:commons-lang3:3.8.1"
+  compile "org.slf4j:slf4j-api:$slf4jVersion"
+  runtime "org.slf4j:slf4j-simple:$slf4jVersion"
+  compile "org.projectlombok:lombok:$projectLombokVersion"
+
+  testCompile "junit:junit:$junitVersion"
+  testCompile "org.mockito:mockito-core:$mockitoVersion"
 }
 
 shadowJar {
