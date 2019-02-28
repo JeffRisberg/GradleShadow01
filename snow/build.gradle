@@ -82,6 +82,8 @@ dependencies {
   runtime "org.slf4j:slf4j-simple:$slf4jVersion"
   compile "org.projectlombok:lombok:$projectLombokVersion"
 
+  compile project(':base')
+
   testCompile "junit:junit:$junitVersion"
   testCompile "org.mockito:mockito-core:$mockitoVersion"
 }

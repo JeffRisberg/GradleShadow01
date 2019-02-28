@@ -1,8 +1,8 @@
 FROM openjdk:8-jre
 MAINTAINER Jeff Risberg <j.s.risberg@gmail.com>
 
-RUN mkdir -p /opt/company/bin /opt/company/lib /opt/company/connector/lib /opt/company/connector/bin /opt/company/lib/plugins /var/log/company/connectors
+RUN mkdir -p /opt/company/bin /opt/company/lib
 
-ENV PATH /opt/company/bin:/opt/company/connector/bin:$PATH
+ENV PATH /opt/company/bin:$PATH
 
-COPY pipeline/lib/base-0.1.0.jar /opt/company/connector/lib/
+COPY base/lib/base-0.1.0.jar /opt/company/lib/
