@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
@@ -13,8 +14,7 @@ import java.util.List;
 @Slf4j
 public class Main {
 
-  public static void main(String[] args) {
-
+  Main() {
     try {
       ItemStore itemStore = new ItemStore();
 
@@ -23,8 +23,11 @@ public class Main {
         System.out.println(listItem);
       }
 
-      Reader in = new FileReader("people.csv");
-      Iterable<CSVRecord> records = CSVFormat.EXCEL.parse(in);
+      ClassLoader classLoader = getClass().getClassLoader();
+      File file = new File(classLoader.getResource("people.csv").getFile());
+
+      Reader in = new FileReader(file);
+      Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
       for (CSVRecord record : records) {
         String lastName = record.get("Last Name");
         String firstName = record.get("First Name");
@@ -36,5 +39,9 @@ public class Main {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public static void main(String[] args) {
+    new Main();
   }
 }
