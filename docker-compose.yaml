@@ -1,0 +1,25 @@
+version: '3'
+services:
+  connector-restserver:
+      image: aisera/connector-apiserver:${branch}
+      ports: ['8089:8080']
+      networks: ['platform_stack']
+      environment: [
+          'aisera.kv.redis.host=redis',
+          'aisera.io.objectstore.plugin=com.aisera.plugins.io.aws.S3Store',
+          'aisera.io.s3.uri=http://minio:9000',
+          'aisera.io.memstore.plugin=com.aisera.plugins.datastores.redis.RedisStore$$RedisKSFactory',
+          'aisera.io.pubsub.plugin=com.aisera.plugins.pubsub.kafka.KafkaStore$$KafkaPubSubFactory',
+          'aisera.datastore.graph.plugin=com.aisera.plugins.datastores.graph.CayleyStore$$CayleyFactory',
+          'aisera.pubsub.host.ports=kafka:9092',
+          'aisera.service.name=connectors'
+      ]
+      depends_on: []
+      command: /opt/aisera/connector/bin/LaunchConnectorAPIServer
+  splash:
+      image: scrapinghub/splash
+      ports: ['8050:8050']
+      networks: ['platform_stack']
+networks:
+    platform_stack:
+        external: true
