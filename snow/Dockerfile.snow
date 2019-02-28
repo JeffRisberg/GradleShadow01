@@ -1,14 +1,14 @@
-FROM base
+FROM company/base:newest
 MAINTAINER Jeff Risberg <j.s.risberg@gmail.com>
 
-RUN mkdir -p /opt/company/bin /opt/company/lib /opt/company/connector/lib /opt/company/connector/bin /var/log/company/connectors
+RUN mkdir -p /opt/company/bin /opt/company/lib
 
-ENV PATH /opt/company/bin:/opt/company/connector/bin:$PATH
+ENV PATH /opt/company/bin:$PATH
 
-COPY snow/lib/aisera-snow-specific-0.1.0.jar /opt/company/connector/lib/
+COPY snow/lib/snow-0.1.0.jar /opt/company/lib/
 
-COPY snow/bin/LaunchSnowConnector /opt/company/connector/bin/
+COPY snow/bin/LaunchSnowConnector /opt/company/bin/
 
-RUN chmod a+x /opt/company/connector/bin/LaunchSnowConnector
+RUN chmod a+x /opt/company/bin/LaunchSnowConnector
 
-ENTRYPOINT [ "/opt/company/connector/bin/LaunchSnowConnector" ]
+ENTRYPOINT [ "/opt/company/bin/LaunchSnowConnector" ]

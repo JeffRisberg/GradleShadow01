@@ -1,15 +1,15 @@
 #!/bin/bash
 
-CLASSPATH=/opt/aisera/connector/lib/aisera-snow-specific-0.1.0.jar:/opt/aisera/connector/lib/connector-pipeline-base-0.1.0.jar
-CLASSPATH=${CLASSPATH}:/opt/aisera/connector/conf/*
+CLASSPATH=/opt/company/lib/base-0.1.0.jar:/opt/company/lib/snow-0.1.0.jar
+CLASSPATH=${CLASSPATH}:/opt/company/conf/*
 
-LOG_DIR=/var/log/aisera/connectors
+LOG_DIR=/var/log/company
 pid=$$
 mkdir -p ${LOG_DIR}
-LOG_FILE=${LOG_DIR}/aisera_snow_${pid}.log
+LOG_FILE=${LOG_DIR}/snow_${pid}.log
 echo ${LOG_FILE}
 echo ${CLASSPATH}
 
 LOGCONF="-DLOG_FILE_NAME=${LOG_FILE}"
 exec "${JAVA_HOME}/bin/java" "${LOGCONF}" -cp "${CLASSPATH}" "-XX:+ExitOnOutOfMemoryError" \
-  com.aisera.connectors.snow.SNOWConnector "$@" 2>&1
+  com.company.Main "$@" 2>&1

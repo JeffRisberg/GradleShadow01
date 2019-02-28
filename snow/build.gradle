@@ -21,8 +21,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 version = '0.1.0'
-def jarName = "aisera-snow-specific"
-def containerName = "aisera/connector-snow:$System.env.branch"
+def jarName = "snow"
+def containerName = "company/snow:$System.env.branch"
 
 ext {
   slf4jVersion = '1.7.25'
@@ -32,40 +32,40 @@ ext {
 }
 
 assemble.doFirst {
-  def libDir = new File("${rootDir}/install/opt/company/connectors/snow/lib")
+  def libDir = new File("${rootDir}/install/opt/company/snow/lib")
   if (!libDir.exists()) {
     libDir.mkdirs()
   }
 
-  def binDir = new File("${rootDir}/install/opt/company/connectors/snow/bin")
+  def binDir = new File("${rootDir}/install/opt/company/snow/bin")
   if (!binDir.exists()) {
     binDir.mkdirs()
   }
 
-  def confDir = new File("${rootDir}/install/opt/company/connectors/snow/conf")
+  def confDir = new File("${rootDir}/install/opt/company/snow/conf")
   if (!confDir.exists()) {
     confDir.mkdirs()
   }
 
   copy {
     from "Dockerfile.snow"
-    into "${rootDir}/build/install/opt/company/connectors/snow"
+    into "${rootDir}/build/install/opt/company/snow"
   }
 }
 
 assemble.doLast {
   copy {
-    from "${buildDir}/libs/aisera-snow-all-0.1.0.jar"
-    into "${rootDir}/build/install/opt/company/connectors/snow/lib/"
+    from "${buildDir}/libs/snow-0.1.0.jar"
+    into "${rootDir}/build/install/opt/company/snow/lib/"
   }
   copy {
     from "bin/LaunchSnowConnector"
-    into "${rootDir}/build/install/opt/aisera/connectors/snow/bin/"
+    into "${rootDir}/build/install/opt/company/snow/bin/"
   }
 }
 
 task buildImage(type: Exec) {
-  workingDir "${rootDir}/build/install/opt/aisera/connectors"
+  workingDir "${rootDir}/build/install/opt/company"
   executable "docker"
   args "build", "-t", "${containerName}", "-f", "snow/Dockerfile.snow", "."
 }
