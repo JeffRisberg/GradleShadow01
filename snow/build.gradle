@@ -14,7 +14,7 @@ buildscript {
   }
 }
 
-group 'com.aisera'
+group 'com.company'
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 sourceCompatibility = 1.8
@@ -32,31 +32,31 @@ ext {
 }
 
 assemble.doFirst {
-  def libDir = new File("${rootDir}/install/opt/aisera/connectors/snow/lib")
+  def libDir = new File("${rootDir}/install/opt/company/connectors/snow/lib")
   if (!libDir.exists()) {
     libDir.mkdirs()
   }
 
-  def binDir = new File("${rootDir}/install/opt/aisera/connectors/snow/bin")
+  def binDir = new File("${rootDir}/install/opt/company/connectors/snow/bin")
   if (!binDir.exists()) {
     binDir.mkdirs()
   }
 
-  def confDir = new File("${rootDir}/install/opt/aisera/connectors/snow/conf")
+  def confDir = new File("${rootDir}/install/opt/company/connectors/snow/conf")
   if (!confDir.exists()) {
     confDir.mkdirs()
   }
 
   copy {
     from "Dockerfile.snow"
-    into "${rootDir}/build/install/opt/aisera/connectors/snow"
+    into "${rootDir}/build/install/opt/company/connectors/snow"
   }
 }
 
 assemble.doLast {
   copy {
     from "${buildDir}/libs/aisera-snow-all-0.1.0.jar"
-    into "${rootDir}/build/install/opt/aisera/connectors/snow/lib/"
+    into "${rootDir}/build/install/opt/company/connectors/snow/lib/"
   }
   copy {
     from "bin/LaunchSnowConnector"

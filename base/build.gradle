@@ -14,7 +14,7 @@ buildscript {
   }
 }
 
-group 'com.aisera'
+group 'com.company'
 apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 sourceCompatibility = 1.8
@@ -32,36 +32,36 @@ ext {
 }
 
 assemble.doFirst {
-  def libDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/lib")
+  def libDir = new File("${rootDir}/build/install/opt/company/connectors/base/lib")
   if (!libDir.exists()) {
     libDir.mkdirs()
   }
 
-  def binDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/bin")
+  def binDir = new File("${rootDir}/build/install/opt/company/connectors/base/bin")
   if (!binDir.exists()) {
     binDir.mkdirs()
   }
 
-  def confDir = new File("${rootDir}/build/install/opt/aisera/connectors/base/conf")
+  def confDir = new File("${rootDir}/build/install/opt/company/connectors/base/conf")
   if (!confDir.exists()) {
     confDir.mkdirs()
   }
 
   copy {
     from "Dockerfile.base"
-    into "${rootDir}/build/install/opt/aisera/connectors/base"
+    into "${rootDir}/build/install/opt/company/connectors/base"
   }
 }
 
 assemble.doLast {
   copy {
     from "${buildDir}/libs/base-0.1.0.jar"
-    into "${rootDir}/build/install/opt/aisera/connectors/base/lib/"
+    into "${rootDir}/build/install/opt/company/connectors/base/lib/"
   }
 }
 
 task buildImage(type: Exec) {
-  workingDir "${rootDir}/build/install/opt/aisera/connectors"
+  workingDir "${rootDir}/build/install/opt/company/connectors"
   executable "docker"
   args "build", "-t", "${containerName}", "-f", "base/Dockerfile.base", "."
 }
@@ -74,7 +74,6 @@ task cleanImage(type: Exec) {
 
 dependencies {
   compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
-
 
   // https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path
   compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'

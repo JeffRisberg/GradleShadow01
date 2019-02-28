@@ -1,14 +1,14 @@
 FROM base
 MAINTAINER Jeff Risberg <j.s.risberg@gmail.com>
 
-RUN mkdir -p /opt/aisera/bin /opt/aisera/lib /opt/aisera/connector/lib /opt/aisera/connector/bin /opt/aisera/lib/plugins /var/log/aisera/connectors
+RUN mkdir -p /opt/company/bin /opt/company/lib /opt/company/connector/lib /opt/company/connector/bin /var/log/company/connectors
 
-ENV PATH /opt/aisera/bin:/opt/aisera/connector/bin:$PATH
+ENV PATH /opt/company/bin:/opt/company/connector/bin:$PATH
 
-COPY snow/lib/aisera-snow-specific-0.1.0.jar /opt/aisera/connector/lib/
+COPY snow/lib/aisera-snow-specific-0.1.0.jar /opt/company/connector/lib/
 
-COPY snow/bin/LaunchSnowConnector /opt/aisera/connector/bin/
+COPY snow/bin/LaunchSnowConnector /opt/company/connector/bin/
 
-RUN chmod a+x /opt/aisera/connector/bin/LaunchSnowConnector
+RUN chmod a+x /opt/company/connector/bin/LaunchSnowConnector
 
-ENTRYPOINT [ "/opt/aisera/connector/bin/LaunchSnowConnector" ]
+ENTRYPOINT [ "/opt/company/connector/bin/LaunchSnowConnector" ]
