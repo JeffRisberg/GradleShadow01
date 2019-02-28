@@ -77,15 +77,9 @@ task cleanImage(type: Exec) {
 }
 
 dependencies {
-  compile "org.apache.commons:commons-lang3:3.8.1"
-  compile "org.slf4j:slf4j-api:$slf4jVersion"
-  runtime "org.slf4j:slf4j-simple:$slf4jVersion"
-  compile "org.projectlombok:lombok:$projectLombokVersion"
-
   compile project(':base')
 
-  testCompile "junit:junit:$junitVersion"
-  testCompile "org.mockito:mockito-core:$mockitoVersion"
+  compile group: 'org.apache.commons', name: 'commons-csv', version: '1.5'
 }
 
 jar {
@@ -113,7 +107,9 @@ shadowJar {
     exclude "META-INF/*.SF"
     exclude "META-INF/*.DSA"
     exclude "META-INF/*.RSA"
-    // exclude the base here
+  }
+  dependencies {
+    exclude(project(':base'))
   }
   with jar
 }

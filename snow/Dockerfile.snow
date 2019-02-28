@@ -1,7 +1,7 @@
 FROM company/base:newest
 MAINTAINER Jeff Risberg <j.s.risberg@gmail.com>
 
-RUN mkdir -p /opt/company/bin /opt/company/lib
+RUN mkdir -p /opt/company/bin /opt/company/lib /opt/company/conf
 
 ENV PATH /opt/company/bin:$PATH
 
