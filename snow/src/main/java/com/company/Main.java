@@ -6,15 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.List;
 
 @Slf4j
 public class Main {
 
-  Main() {
+  public Main() {
     try {
       ItemStore itemStore = new ItemStore();
 
@@ -23,10 +21,10 @@ public class Main {
         System.out.println(listItem);
       }
 
-      ClassLoader classLoader = getClass().getClassLoader();
-      File file = new File(classLoader.getResource("people.csv").getFile());
+      ClassLoader classLoader = Main.class.getClassLoader();
+      InputStream inp = classLoader.getResourceAsStream("people.csv");
 
-      Reader in = new FileReader(file);
+      Reader in = new InputStreamReader(inp);
       Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(in);
       for (CSVRecord record : records) {
         String lastName = record.get("Last Name");
