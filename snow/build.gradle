@@ -109,13 +109,7 @@ shadowJar {
     exclude "META-INF/*.RSA"
   }
   dependencies {
-    exclude(dependency("org.apache.commons:commons-lang3:3.8.1"))
-    exclude(dependency("org.slf4j:slf4j-api:$slf4jVersion"))
-    exclude(dependency("org.slf4j:slf4j-simple:$slf4jVersion"))
-    exclude(dependency("org.projectlombok:lombok:$projectLombokVersion"))
-    exclude(dependency("com.jayway.jsonpath:json-path:2.4.0"))
-
-    //exclude(project(':base'))
+    exclude(project(':base'))
   }
   with jar
 }
